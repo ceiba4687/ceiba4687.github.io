@@ -9,6 +9,10 @@ tags:
 - Arch
 - Linux
 ---
+Arch —— A simple, lightweight distribution
+Arch Linux is a versatile, and simple distribution designed to fit the needs of the competent Linux® user. It is both powerful and easy to manage, making it an ideal distro for servers and workstations. Welcome to Arch!
+
+<!-- more -->
 
 ## Arch Linux安装
 
@@ -18,7 +22,6 @@ tags:
 >Arch Wiki：[ArchWiki (archlinux.org)](https://wiki.archlinux.org/)  
 >Ventory：[Ventoy](https://www.ventoy.net/cn/)
 
-<!-- more -->
 
 从官网的[Arch Linux下载页面](https://archlinux.org/download/)下载镜像之后，只需要复制到已经制作好的Ventory安装U盘中即可，制作VentoryU盘的方法参考[Ventory文档手册](https://www.ventoy.net/cn/doc_start.html)。
 
