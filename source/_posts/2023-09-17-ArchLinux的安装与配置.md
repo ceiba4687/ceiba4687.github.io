@@ -10,7 +10,7 @@ tags:
 - Linux
 ---
 Arch —— A simple, lightweight distribution
-Arch Linux is a versatile, and simple distribution designed to fit the needs of the competent Linux® user. It is both powerful and easy to manage, making it an ideal distro for servers and workstations. Welcome to Arch!
+介绍Arch的安装与配置，应用配置待续。
 
 <!-- more -->
 
@@ -25,7 +25,7 @@ Arch Linux is a versatile, and simple distribution designed to fit the needs of 
 
 从官网的[Arch Linux下载页面](https://archlinux.org/download/)下载镜像之后，只需要复制到已经制作好的Ventory安装U盘中即可，制作VentoryU盘的方法参考[Ventory文档手册](https://www.ventoy.net/cn/doc_start.html)。
 
-> 通常来说，下载之后验证文件完整性和签名是必要的，但我懒得弄所以省去此步骤。
+> 通常来说，下载之后验证文件完整性和签名是必要的
 
 针对我的设备，由于之前已经多次安装过Linux系统，也没有使用双系统的想法，所以直接执行全盘抹除安装，也很清楚系统是UEFI启动，因此不需要在BIOS中进行调整。多数情况下，也只需要禁用secure boot即可。
 
@@ -60,7 +60,7 @@ Arch Linux is a versatile, and simple distribution designed to fit the needs of 
 4.  更新系统时钟
 
     ```text
-    root@archiso ~ # timedatectl status
+    timedatectl status
     ```
 
 5.  **磁盘分区**
@@ -130,19 +130,19 @@ Arch Linux is a versatile, and simple distribution designed to fit the needs of 
     挂载根分区
 
     ```text
-    root@archiso ~ # mount /dev/nvme0n1p2 /mnt
+    mount /dev/nvme0n1p2 /mnt
     ```
 
     创建boot目录并挂载EFI分区
 
     ```text
-    root@archiso ~ # mount --mkdir /dev/nvme0n1p1 /mnt/boot
+    mount --mkdir /dev/nvme0n1p1 /mnt/boot
     ```
 
     启用swap分区
 
     ```text
-    root@archiso ~ # swapon /dev/nvme0n1p3
+    swapon /dev/nvme0n1p3
     ```
 
 8. 选择镜像源
@@ -158,45 +158,45 @@ Arch Linux is a versatile, and simple distribution designed to fit the needs of 
 9.  安装基础包
 
     ```text
-    root@archiso ~ # pacstrap -K /mnt base linux linux-firmware
+    pacstrap -K /mnt base linux linux-firmware
     ```
 
 10. 配置系统
     生成fstab文件
 
     ```text
-    root@archiso ~ # genfstab -U /mnt >> /mnt/etc/fstab
+    genfstab -U /mnt >> /mnt/etc/fstab
     ```
 
     chroot到新安装的系统
 
     ```text
-    root@archiso ~ # arch-chroot /mnt
+    arch-chroot /mnt
     ```
 
     设置时区
 
     ```text
-    [root@archiso ~]# ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
     ```
 
     设置硬件时间
 
     ```text
-    [root@archiso ~]# hwclock --systohc
+    hwclock --systohc
     ```
 
     本地化
     安装vim和终端字体
 
     ```text
-    [root@archiso ~]# pacman -S vim terminus-font
+    pacman -S vim terminus-font
     ```
 
     编辑locale.gen
 
     ```text
-    [root@archiso ~]# vim /etc/locale.gen
+    vim /etc/locale.gen
     ```
 
     删除如下两行开头的#
@@ -210,13 +210,13 @@ Arch Linux is a versatile, and simple distribution designed to fit the needs of 
     生成locale
 
     ```text
-    [root@archiso ~]# locale-gen
+    locale-gen
     ```
 
     创建并编辑locale.conf
 
     ```text
-    [root@archiso ~]# vim /etc/locale.conf
+    vim /etc/locale.conf
     ```
 
     按i进入编辑模式并输入如下语句后保存退出
@@ -229,7 +229,7 @@ Arch Linux is a versatile, and simple distribution designed to fit the needs of 
     设置hostname
 
     ```text
-    [root@archiso ~]# vim /etc/hostname
+    vim /etc/hostname
     ----------------------------------
     我的主机名
     ```
@@ -237,19 +237,19 @@ Arch Linux is a versatile, and simple distribution designed to fit the needs of 
     安装网络管理器
 
     ```text
-    [root@archiso ~]# pacman -S networkmanager
+    pacman -S networkmanager
     ```
 
     设置网络管理器开机自启
 
     ```text
-    [root@archiso ~]# systemctl enable NetworkManager.service
+    systemctl enable NetworkManager.service
     ```
 
 12. 设置root密码
 
     ```text
-    [root@archiso ~]# passwd
+    passwd
     New password:  # 请输入密码，这里不会有显示，这是正常现象
     Retype new password:
     passwd: password updated successfully
@@ -259,27 +259,27 @@ Arch Linux is a versatile, and simple distribution designed to fit the needs of 
     根据cpu型号安装对应微码
 
     ```text
-    [root@archiso ~]# pacman -S intel-ucode
+    pacman -S intel-ucode
     ```
 
     或者
 
     ```text
-    [root@archiso ~]# pacman -S amd-ucode
+    pacman -S amd-ucode
     ```
 
     安装GRUB软件包
 
     ```text
-    [root@archiso ~]# pacman -S grub efibootmgr
+    pacman -S grub efibootmgr
     
-    [root@archiso ~]# grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+    grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
     ```
 
     生成GRUB配置
 
     ```text
-    [root@archiso ~]# grub-mkconfig -o /boot/grub/grub.cfg
+    grub-mkconfig -o /boot/grub/grub.cfg
     ```
 
     **一定要确保GRUB配置生成无误再重启！！！！**
@@ -357,7 +357,7 @@ Arch Linux is a versatile, and simple distribution designed to fit the needs of 
     之后，保存并退出。请更新本地软件数据库并安装 archlinuxcn-keyring
 
     ```text
-    # pacman -Syyu archlinuxcn-keyring
+    pacman -Syyu archlinuxcn-keyring
     ```
 
 6. 安装图形界面
@@ -380,6 +380,10 @@ Arch Linux is a versatile, and simple distribution designed to fit the needs of 
     ```text
     pacman -S plasma kde-applications
     ```
+    由于KDE桌面应用太多，我建议只安装桌面和几个必须的应用，其他应用等需要时再酌情安装。
+    ```text
+    pacman -S plasma-desktop konsole dolphin
+    ```
 
     再次重启系统，就能通过sddm和kde图形界面进入系统了，注意，此时输入的密码已经是之前设置的普通用户的密码，而不是最开始设置的root用户密码。
 
@@ -398,20 +402,17 @@ Arch Linux is a versatile, and simple distribution designed to fit the needs of 
 
     之后使用yay安装，卸载，搜索应用的方法与pacman大致相同，可自行搜索相关页面，参考[pacman - Arch Linux 中文维基](https://wiki.archlinuxcn.org/wiki/Pacman)
 
-9. 常用软件
-    参考[建议阅读 - Arch Linux 中文维基 (archlinuxcn.org)](https://wiki.archlinuxcn.org/wiki/%E5%BB%BA%E8%AE%AE%E9%98%85%E8%AF%BB#top-page)中的中国大陆推荐解决方案一节，此页面中的其他部分也有一定参考意义。
-    在此列出一些常用软件的安装命令，仅供参考
-
-    ```text
-    yay -S linuxqq
-    ysy -S visual-studio-code-bin
-    yay -S netease-cloud-music
-    yay -S microsoft-edge-stable-bin
-    yay -S wps-office-cn wps-office-mui-zh-cn ttf-wps-fonts
-    ```
 
 **建议：定期（至少每周，推荐每天）运行系统更新命令进行滚动更新。**
 
 ```text
-yay -Syu
+    yay -Syu
 ```
+
+## Archlinux 安装后配置
+
+### 常用应用
+
+### KDE配置
+
+待续
